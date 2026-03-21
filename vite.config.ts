@@ -3,16 +3,13 @@ import { fileURLToPath } from "node:url";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 import { vitePrerenderPlugin } from "vite-prerender-plugin";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { defineConfig } from "vitest/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const config = defineConfig({
-	test: {
-		passWithNoTests: true,
-	},
+const config = defineConfig(({ command }) => ({
 	resolve: {
 		alias: {
 			// Use the Node-aware build: the "browser" entry touches `document` at init and
@@ -32,7 +29,8 @@ const config = defineConfig({
 		},
 	},
 	plugins: [
-		devtools(),
+		// Devtools starts background resources that can prevent `vite build` from exiting.
+		...(command === "serve" ? devtools() : []),
 		tanstackRouter({
 			target: "react",
 			// Eager route modules so vite-prerender-plugin + renderToString resolve
@@ -49,7 +47,21 @@ const config = defineConfig({
 			renderTarget: "#root",
 			prerenderScript: path.resolve(__dirname, "src/prerender.tsx"),
 		}),
+		// vite-prerender-plugin dynamic-imports the client graph in Rollup's `generateBundle`.
+		// With Rollup's native backend on Node 24, thousands of FILEHANDLEs can stay referenced so
+		// the event loop never empties even though the build finished (output is already written).
+		{
+			name: "exit-after-prerender-build",
+			apply: "build",
+			enforce: "post",
+			closeBundle(this: import("rollup").PluginContext) {
+				if (this.meta.watchMode) return;
+				setImmediate(() => {
+					process.exit(0);
+				});
+			},
+		},
 	],
-});
+}));
 
 export default config;
