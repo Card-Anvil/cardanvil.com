@@ -14,23 +14,6 @@ import { Provider } from "@/components/ui/provider";
 import { documentTitleFromMatches } from "@/document-title";
 import { routeTree } from "./routeTree.gen";
 
-function emotionStyleTagFromCache(
-	cache: ReturnType<typeof createCache>,
-): string {
-	let css = "";
-	for (const id of Object.keys(cache.inserted)) {
-		const v = cache.inserted[id];
-		if (typeof v === "string") {
-			css += v;
-		}
-	}
-	if (!css) {
-		return "";
-	}
-	const ids = Object.keys(cache.inserted).join(" ");
-	return `<style data-emotion="${cache.key} ${ids}" data-s="">${css}</style>`;
-}
-
 function createPrerenderRouter(url: string) {
 	return createRouter({
 		routeTree,
@@ -46,7 +29,8 @@ function createPrerenderRouter(url: string) {
 export async function prerender(
 	data: PrerenderArguments,
 ): Promise<PrerenderResult> {
-	const cache = createCache({ key: "chakra", prepend: true });
+	// Match the default Emotion cache key in the browser so prerendered <style> tags hydrate.
+	const cache = createCache({ key: "css", prepend: true });
 	const router = createPrerenderRouter(data.url);
 	// Server render path omits Transitioner (no effects), so matches stay empty until load runs.
 	await router.load();
@@ -59,8 +43,7 @@ export async function prerender(
 		</CacheProvider>,
 	);
 
-	const styles = emotionStyleTagFromCache(cache);
-	const html = styles + markup;
+	const html = markup;
 
 	const { parseLinks } = await import("vite-prerender-plugin/parse");
 	const discovered = parseLinks(html);

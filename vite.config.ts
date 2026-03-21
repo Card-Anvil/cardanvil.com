@@ -18,6 +18,18 @@ const config = defineConfig(({ command }) => ({
 				__dirname,
 				"node_modules/@emotion/cache/dist/emotion-cache.esm.js",
 			),
+			// Vite's "browser" export uses useInsertionEffect, which does not run during
+			// renderToString — so prerendered HTML had class names but no <style> tags (FOUC).
+			// The default ESM build uses a sync fallback when document is undefined (Node).
+			"@emotion/use-insertion-effect-with-fallbacks": path.resolve(
+				__dirname,
+				"node_modules/@emotion/use-insertion-effect-with-fallbacks/dist/emotion-use-insertion-effect-with-fallbacks.esm.js",
+			),
+			// Browser bundle hardcodes isBrowser=true and drops the SSR insertStyles return path.
+			"@emotion/utils": path.resolve(
+				__dirname,
+				"node_modules/@emotion/utils/dist/emotion-utils.esm.js",
+			),
 			// Client bundle resolves `isServer` to `false`, which makes `isServer ?? router.isServer`
 			// ignore `router.isServer` and keeps Suspense boundaries during prerender (empty HTML).
 			// The development build exports `undefined` so runtime uses each router's `isServer`
