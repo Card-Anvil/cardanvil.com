@@ -1,52 +1,24 @@
 /**
- * Central URLs for the marketing site. Update `WINDOWS_DOWNLOAD_ASSETS` and
- * `GITHUB_RELEASE_DOWNLOAD` when release artifacts or tagging changes.
+ * Central URLs for the marketing site.
  *
- * GitHub “latest” URLs only work if each release publishes assets with the
- * same `fileName`. Versioned Tauri filenames require `pinned` + updating
- * `tag` / `fileName` per release, or stable renamed assets in CI.
+ * The download page resolves the Windows NSIS `.exe` at runtime via GitHub’s
+ * `releases/latest` API (no hardcoded version). Adjust `GITHUB_REPO_URL` or
+ * `WINDOWS_DESKTOP_INSTALLER.githubAssetNamePrefix` if the app ships from
+ * another repository or uses a different Tauri `productName`.
  */
 export const WEB_APP_ORIGIN = "https://app.cardanvil.com";
 
-/** Public app repository (Releases). */
+/** Public repository whose Releases publish the desktop installer. */
 export const GITHUB_REPO_URL = "https://github.com/Card-Anvil/cardanvil.com";
 
 export const githubReleasesUrl = `${GITHUB_REPO_URL.replace(/\/$/, "")}/releases`;
 
-export type GithubReleaseDownload =
-	| { type: "latest" }
-	| { type: "pinned"; tag: string };
-
-/** `latest` → …/releases/latest/download/{file}; `pinned` → …/releases/download/{tag}/{file} */
-export const GITHUB_RELEASE_DOWNLOAD: GithubReleaseDownload = {
-	type: "latest",
-};
-
-export const WINDOWS_DOWNLOAD_ASSETS: { label: string; fileName: string }[] = [
-	{
-		label: "Windows installer (64-bit)",
-		// Replace with the exact name under Release → Assets when you publish.
-		fileName: "proxyweaver_x64-setup.exe",
-	},
-];
-
-export function githubWindowsAssetUrl(fileName: string): string {
-	const base = GITHUB_REPO_URL.replace(/\/$/, "");
-	const enc = encodeURIComponent(fileName);
-	if (GITHUB_RELEASE_DOWNLOAD.type === "latest") {
-		return `${base}/releases/latest/download/${enc}`;
-	}
-	const tagEnc = encodeURIComponent(GITHUB_RELEASE_DOWNLOAD.tag);
-	return `${base}/releases/download/${tagEnc}/${enc}`;
-}
-
-export function windowsDownloadsWithUrls(): {
-	label: string;
-	fileName: string;
-	href: string;
-}[] {
-	return WINDOWS_DOWNLOAD_ASSETS.map((a) => ({
-		...a,
-		href: githubWindowsAssetUrl(a.fileName),
-	}));
-}
+/** Desktop Windows download row: label + how to pick the asset on the latest release. */
+export const WINDOWS_DESKTOP_INSTALLER = {
+	label: "Windows installer (64-bit)",
+	/**
+	 * Tauri NSIS files are named `{productName}_{version}_x64-setup.exe`.
+	 * Keep this equal to `productName` plus `_` from `ProxyWeaver/src-tauri/tauri.conf.json`.
+	 */
+	githubAssetNamePrefix: "cardanvil_",
+} as const;
