@@ -27,7 +27,7 @@ export default function Header() {
 		>
 			<Container maxW="6xl" py={3}>
 				<Flex align="center" justify="space-between" gap={4} wrap="wrap">
-					<Heading as="p" size="md" fontWeight="semibold">
+					<Heading as="h1" size="md" fontWeight="semibold">
 						<ChakraRouterLink
 							to="/"
 							display="inline-flex"
@@ -43,7 +43,14 @@ export default function Header() {
 							color="fg"
 							_hover={{ bg: "bg.muted" }}
 						>
-							<Box h={2} w={2} rounded="full" bg="cyan.solid" />
+							<Box
+								as="span"
+								display="inline-block"
+								h={2}
+								w={2}
+								rounded="full"
+								bg="cyan.solid"
+							/>
 							Card Anvil
 						</ChakraRouterLink>
 					</Heading>
