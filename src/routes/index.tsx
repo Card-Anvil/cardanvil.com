@@ -8,11 +8,12 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { createFileRoute, Link as RouterLink } from "@tanstack/react-router";
+import { WEB_APP_ORIGIN } from "@/site-config";
 
 export const Route = createFileRoute("/")({
 	component: Home,
 	head: () => ({
-		meta: [{ title: "Cardanvil · Home" }],
+		meta: [{ title: "Card Anvil" }],
 	}),
 });
 
@@ -33,20 +34,20 @@ function Home() {
 						position="absolute"
 						inset={0}
 						bgGradient="to-br"
-						gradientFrom="teal.subtle"
+						gradientFrom="cyan.subtle"
 						gradientTo="transparent"
 						pointerEvents="none"
-						opacity={0.6}
+						opacity={0.65}
 					/>
 					<Stack gap={4} position="relative">
 						<Text
 							fontSize="sm"
 							fontWeight="semibold"
-							color="teal.fg"
+							color="cyan.fg"
 							textTransform="uppercase"
 							letterSpacing="wide"
 						>
-							Chakra UI v3 demo
+							Forge better proxies
 						</Text>
 						<Heading
 							as="h1"
@@ -55,24 +56,29 @@ function Home() {
 							lineHeight="shorter"
 							maxW="3xl"
 						>
-							Simple pages, one component library.
+							Card Anvil
 						</Heading>
-						<Text fontSize="lg" color="fg.muted" maxW="2xl">
-							This app is a client-only Vite SPA with TanStack Router and Chakra
-							UI. Use it as a baseline for product UI without Tailwind or SSR.
+						<Text fontSize="xl" color="fg.muted" maxW="2xl" fontWeight="medium">
+							Generate high-quality proxies, for paper or screen.
+							Built for tabletop players who like their proxies sharp and their
+							decks personal.
+						</Text>
+						<Text fontSize="md" color="fg.muted" maxW="2xl" m={0}>
+							Use the web app in your browser, or grab the Windows desktop build
+							when you want a native window.
 						</Text>
 						<Stack direction={{ base: "column", sm: "row" }} gap={3}>
-							<Button asChild colorPalette="teal">
-								<RouterLink to="/about">About</RouterLink>
-							</Button>
-							<Button asChild variant="outline">
+							<Button asChild colorPalette="cyan" size="lg">
 								<a
-									href="https://www.chakra-ui.com/docs"
+									href={WEB_APP_ORIGIN}
 									target="_blank"
-									rel="noreferrer"
+									rel="noreferrer noopener"
 								>
-									Documentation
+									Open web app
 								</a>
+							</Button>
+							<Button asChild variant="outline" size="lg">
+								<RouterLink to="/download">Download for Windows</RouterLink>
 							</Button>
 						</Stack>
 					</Stack>
@@ -80,16 +86,22 @@ function Home() {
 
 				<SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={4}>
 					{[
-						["Routing", "File-based routes with TanStack Router."],
 						[
-							"Theming",
-							"Light, dark, and system via next-themes + Chakra tokens.",
+							"Bulk render",
+							"Automate your proxy workflow, Photoshop not required."
 						],
 						[
-							"Layout",
-							"Header, outlet, and footer wrapped in a single Provider.",
+							"Frames & fields",
+							"Pick a frame, toggle visible fields, and press go.",
 						],
-						["DX", "Type-safe links and routes across the app."],
+						[
+							"Print-ready",
+							"Printing margin included, send direct to your printer.",
+						],
+						[
+							"Web or desktop",
+							"Run in the browser at the link above, or install on Windows when you prefer.",
+						]
 					].map(([title, desc]) => (
 						<Box
 							key={title}

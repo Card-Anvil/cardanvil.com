@@ -67,7 +67,7 @@ export async function prerender(
 
 	const title =
 		documentTitleFromMatches(router.stores.activeMatchesSnapshot.state) ??
-		"Cardanvil";
+		"Card Anvil";
 
 	return {
 		html,

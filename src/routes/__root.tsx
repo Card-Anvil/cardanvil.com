@@ -14,7 +14,7 @@ import { documentTitleFromMatches } from "@/document-title";
 export const Route = createRootRoute({
 	component: RootLayout,
 	head: () => ({
-		meta: [{ title: "Cardanvil" }],
+		meta: [{ title: "Card Anvil" }],
 	}),
 });
 

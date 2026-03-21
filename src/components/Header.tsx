@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Container,
 	chakra,
 	Flex,
@@ -8,7 +9,7 @@ import {
 	Link,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "@tanstack/react-router";
-import ThemeToggle from "./ThemeToggle";
+import { WEB_APP_ORIGIN } from "@/site-config";
 
 const ChakraRouterLink = chakra(RouterLink);
 
@@ -26,7 +27,7 @@ export default function Header() {
 		>
 			<Container maxW="6xl" py={3}>
 				<Flex align="center" justify="space-between" gap={4} wrap="wrap">
-					<Heading as="h1" size="md" fontWeight="semibold">
+					<Heading as="p" size="md" fontWeight="semibold">
 						<ChakraRouterLink
 							to="/"
 							display="inline-flex"
@@ -42,13 +43,17 @@ export default function Header() {
 							color="fg"
 							_hover={{ bg: "bg.muted" }}
 						>
-							<Box h={2} w={2} rounded="full" bg="teal.solid" />
-							Cardanvil
+							<Box h={2} w={2} rounded="full" bg="cyan.solid" />
+							Card Anvil
 						</ChakraRouterLink>
 					</Heading>
 
 					<HStack gap={2} flexShrink={0}>
-						<ThemeToggle />
+						<Button asChild colorPalette="cyan" size="sm" display={{ base: "none", md: "inline-flex" }}>
+							<a href={WEB_APP_ORIGIN} target="_blank" rel="noreferrer noopener">
+								Open app
+							</a>
+						</Button>
 					</HStack>
 
 					<HStack
@@ -72,7 +77,7 @@ export default function Header() {
 							Home
 						</ChakraRouterLink>
 						<ChakraRouterLink
-							to="/about"
+							to="/download"
 							color="fg.muted"
 							textDecoration="none"
 							_hover={{ color: "fg" }}
@@ -80,17 +85,18 @@ export default function Header() {
 								style: { color: "var(--chakra-colors-fg)", fontWeight: 700 },
 							}}
 						>
-							About
+							Download
 						</ChakraRouterLink>
 						<Link
-							href="https://chakra-ui.com"
+							href={WEB_APP_ORIGIN}
 							target="_blank"
-							rel="noreferrer"
+							rel="noreferrer noopener"
 							color="fg.muted"
 							textDecoration="none"
 							_hover={{ color: "fg" }}
+							display={{ base: "inline", md: "none" }}
 						>
-							Chakra docs
+							Open app
 						</Link>
 					</HStack>
 				</Flex>

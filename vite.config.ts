@@ -3,13 +3,16 @@ import { fileURLToPath } from "node:url";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
 import { vitePrerenderPlugin } from "vite-prerender-plugin";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { defineConfig } from "vitest/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config = defineConfig({
+	test: {
+		passWithNoTests: true,
+	},
 	resolve: {
 		alias: {
 			// Use the Node-aware build: the "browser" entry touches `document` at init and
