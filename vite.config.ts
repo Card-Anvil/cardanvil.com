@@ -30,6 +30,10 @@ const config = defineConfig(({ command }) => ({
 				__dirname,
 				"node_modules/@emotion/utils/dist/emotion-utils.esm.js",
 			),
+			"@emotion/react": path.resolve(
+				__dirname,
+				"node_modules/@emotion/react/dist/emotion-react.esm.js",
+			),
 			// Client bundle resolves `isServer` to `false`, which makes `isServer ?? router.isServer`
 			// ignore `router.isServer` and keeps Suspense boundaries during prerender (empty HTML).
 			// The development build exports `undefined` so runtime uses each router's `isServer`
