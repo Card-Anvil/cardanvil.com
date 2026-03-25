@@ -8,6 +8,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { createFileRoute, Link as RouterLink } from "@tanstack/react-router";
+import { APP_TITLE_FONT_FAMILY, APP_TITLE_FONT_WEIGHT } from "@/app-title-font";
 import { WEB_APP_ORIGIN } from "@/site-config";
 
 export const Route = createFileRoute("/")({
@@ -52,16 +53,17 @@ function Home() {
 						<Heading
 							as="h1"
 							size="4xl"
-							fontWeight="bold"
+							fontWeight={APP_TITLE_FONT_WEIGHT}
 							lineHeight="shorter"
 							maxW="3xl"
+							fontFamily={APP_TITLE_FONT_FAMILY}
 						>
 							Card Anvil
 						</Heading>
 						<Text fontSize="xl" color="fg.muted" maxW="2xl" fontWeight="medium">
-							Generate high-quality proxies, for paper or screen.
-							Built for tabletop players who like their proxies sharp and their
-							decks personal.
+							Generate high-quality proxies, for paper or screen. Built for
+							tabletop players who like their proxies sharp and their decks
+							personal.
 						</Text>
 						<Text fontSize="md" color="fg.muted" maxW="2xl" m={0}>
 							Use the web app in your browser, or grab the Windows desktop build
@@ -88,7 +90,7 @@ function Home() {
 					{[
 						[
 							"Bulk render",
-							"Automate your proxy workflow, Photoshop not required."
+							"Automate your proxy workflow, Photoshop not required.",
 						],
 						[
 							"Frames & fields",
@@ -101,7 +103,7 @@ function Home() {
 						[
 							"Web or desktop",
 							"Run in the browser at the link above, or install on Windows when you prefer.",
-						]
+						],
 					].map(([title, desc]) => (
 						<Box
 							key={title}

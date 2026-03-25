@@ -9,6 +9,8 @@ import {
 	Link,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "@tanstack/react-router";
+import { APP_TITLE_FONT_FAMILY, APP_TITLE_FONT_WEIGHT } from "@/app-title-font";
+import { CardAnvilLogoIcon } from "@/components/CardAnvilLogoIcon";
 import { WEB_APP_ORIGIN } from "@/site-config";
 
 const ChakraRouterLink = chakra(RouterLink);
@@ -27,7 +29,7 @@ export default function Header() {
 		>
 			<Container maxW="6xl" py={3}>
 				<Flex align="center" justify="space-between" gap={4} wrap="wrap">
-					<Heading as="h1" size="md" fontWeight="semibold">
+					<Heading as="h1" size="md" fontWeight={APP_TITLE_FONT_WEIGHT}>
 						<ChakraRouterLink
 							to="/"
 							display="inline-flex"
@@ -43,21 +45,29 @@ export default function Header() {
 							color="fg"
 							_hover={{ bg: "bg.muted" }}
 						>
+							<CardAnvilLogoIcon aria-hidden />
 							<Box
 								as="span"
-								display="inline-block"
-								h={2}
-								w={2}
-								rounded="full"
-								bg="cyan.solid"
-							/>
-							Card Anvil
+								fontFamily={APP_TITLE_FONT_FAMILY}
+								fontWeight={APP_TITLE_FONT_WEIGHT}
+							>
+								Card Anvil
+							</Box>
 						</ChakraRouterLink>
 					</Heading>
 
 					<HStack gap={2} flexShrink={0}>
-						<Button asChild colorPalette="cyan" size="sm" display={{ base: "none", md: "inline-flex" }}>
-							<a href={WEB_APP_ORIGIN} target="_blank" rel="noreferrer noopener">
+						<Button
+							asChild
+							colorPalette="cyan"
+							size="sm"
+							display={{ base: "none", md: "inline-flex" }}
+						>
+							<a
+								href={WEB_APP_ORIGIN}
+								target="_blank"
+								rel="noreferrer noopener"
+							>
 								Open app
 							</a>
 						</Button>
