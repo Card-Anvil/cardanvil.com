@@ -49,7 +49,7 @@ export async function prerender(
 	const discovered = parseLinks(html);
 
 	const title =
-		documentTitleFromMatches(router.stores.activeMatchesSnapshot.state) ??
+		documentTitleFromMatches(router.state.matches) ??
 		"Card Anvil";
 
 	return {
