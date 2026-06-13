@@ -52,12 +52,23 @@ export async function prerender(
 		documentTitleFromMatches(router.state.matches) ??
 		"Card Anvil";
 
+	const elements = new Set(
+		router.state.matches
+			.flatMap((m) => m.meta ?? [])
+			.flatMap((meta) => {
+				// title is handled by head.title; everything else becomes a <meta> element
+				if (!meta || "title" in meta) return [];
+				return [{ type: "meta", props: meta as Record<string, string> }];
+			}),
+	);
+
 	return {
 		html,
 		links: new Set(discovered),
 		head: {
 			lang: "en",
 			title,
+			elements,
 		},
 	};
 }
