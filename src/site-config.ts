@@ -6,6 +6,8 @@
  * `WINDOWS_DESKTOP_INSTALLER.githubAssetNamePrefix` if the app ships from
  * another repository or uses a different Tauri `productName`.
  */
+export const SITE_ORIGIN = "https://cardanvil.com";
+
 export const WEB_APP_ORIGIN = "https://app.cardanvil.com";
 
 /** Public repository whose Releases publish the desktop installer. */
