@@ -48,9 +48,7 @@ export async function prerender(
 	const { parseLinks } = await import("vite-prerender-plugin/parse");
 	const discovered = parseLinks(html);
 
-	const title =
-		documentTitleFromMatches(router.state.matches) ??
-		"Card Anvil";
+	const title = documentTitleFromMatches(router.state.matches) ?? "Card Anvil";
 
 	const elements = new Set(
 		router.state.matches

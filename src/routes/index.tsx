@@ -55,19 +55,17 @@ function Home() {
 							size="4xl"
 							fontWeight={APP_TITLE_FONT_WEIGHT}
 							lineHeight="shorter"
-							maxW="3xl"
 							fontFamily={APP_TITLE_FONT_FAMILY}
 						>
 							Card Anvil
 						</Heading>
-						<Text fontSize="xl" color="fg.muted" maxW="2xl" fontWeight="medium">
-							Generate high-quality proxies, for paper or screen. Built for
-							tabletop players who like their proxies sharp and their decks
-							personal.
+						<Text fontSize="xl" color="fg.muted" fontWeight="medium">
+							Generate high-quality proxies, for paper or screen, with full
+							control for building custom cards.
 						</Text>
-						<Text fontSize="md" color="fg.muted" maxW="2xl" m={0}>
+						<Text fontSize="md" color="fg.muted" m={0}>
 							Use the web app in your browser, or grab the Windows desktop build
-							when you want a native window.
+							for offline card search and rendering.
 						</Text>
 						<Stack direction={{ base: "column", sm: "row" }} gap={3}>
 							<Button asChild colorPalette="cyan" size="lg">
@@ -94,7 +92,7 @@ function Home() {
 						],
 						[
 							"Frames & fields",
-							"Pick a frame, toggle visible fields, and press go.",
+							"Pick a frame, toggle visible fields, and press Forge.",
 						],
 						[
 							"Print-ready",
@@ -103,6 +101,18 @@ function Home() {
 						[
 							"Web or desktop",
 							"Run in the browser at the link above, or install on Windows when you prefer.",
+						],
+						[
+							"Custom cards, built right",
+							"Full custom card editor with a raw Scryfall JSON view for total control over every field.",
+						],
+						[
+							"Play in any language",
+							"Pick a card's language and Card Anvil finds valid printed text, or leaves blank fields for you to fill in.",
+						],
+						[
+							"Works offline (Desktop only)",
+							"A built-in local card database keeps search, printings, and random cards running even without a connection.",
 						],
 					].map(([title, desc]) => (
 						<Box

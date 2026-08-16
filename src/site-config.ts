@@ -10,6 +10,8 @@ export const SITE_ORIGIN = "https://cardanvil.com";
 
 export const WEB_APP_ORIGIN = "https://cardanvil.app";
 
+export const FEEDBACK_ORIGIN = "https://feedback.cardanvil.com";
+
 /** Public repository whose Releases publish the desktop installer. */
 export const GITHUB_REPO_URL = "https://github.com/Card-Anvil/cardanvil.com";
 
