@@ -10,15 +10,13 @@ const customGlobalCss = defineGlobalStyles({
 	"*, *::before, *::after": {
 		boxSizing: "border-box",
 	},
-	html: {
-		minH: "100%",
-	},
 	body: {
 		margin: 0,
-		minH: "100%",
 	},
 	"#root": {
-		minH: "100%",
+		minH: "100dvh",
+		display: "flex",
+		flexDirection: "column",
 	},
 });
 

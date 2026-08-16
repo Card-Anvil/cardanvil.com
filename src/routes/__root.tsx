@@ -6,6 +6,8 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useLayoutEffect } from "react";
+import { Box } from "@chakra-ui/react";
+
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Provider } from "@/components/ui/provider";
@@ -13,7 +15,7 @@ import { documentTitleFromMatches } from "@/document-title";
 import { SITE_ORIGIN } from "@/site-config";
 
 const DESCRIPTION =
-	"Generate high-quality card proxies for paper or screen. Built for tabletop players who like their proxies sharp and their decks personal.";
+	"Generate high-quality Magic: The Gathering card proxies for paper or screen — with a full custom card editor, multilingual printed text, and offline desktop support.";
 
 export const Route = createRootRoute({
 	component: RootLayout,
@@ -53,7 +55,9 @@ function RootLayout() {
 	return (
 		<Provider>
 			<Header />
-			<Outlet />
+			<Box as="main" flex={1}>
+				<Outlet />
+			</Box>
 			<Footer />
 			{typeof window !== "undefined" ? (
 				<TanStackRouterDevtools position="bottom-right" router={router} />
