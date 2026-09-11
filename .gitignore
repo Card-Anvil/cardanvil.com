@@ -11,3 +11,6 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+
+# Mirrored from .agents/skills by scripts/sync-agent-config.mjs
+.claude/skills/

@@ -13,6 +13,9 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+      # Before install: `npm ci` runs `prepare`, which would regenerate the
+      # committed agent config and hide any drift.
+      - run: npm run sync:agents:check
       - run: npm ci
       - run: npm run lint
       - run: npm run test

@@ -72,6 +72,37 @@ npm run format
 npm run check
 ```
 
+## Contributing
+
+### Commit messages
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+
+```
+<type>(<optional scope>): <description>
+```
+
+Types are `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `build`, `ci`, and
+`revert`. Breaking changes take a `!` before the colon (`feat(routes)!: …`) or a
+`BREAKING CHANGE:` footer. Scope the area you touched — e.g. `routes`, `prerender`, `theme`,
+`meta`, `ci`, `deps`:
+
+```
+feat(routes): add download page
+fix(prerender): include styles in prerendered HTML
+chore(deps): bump chakra to 3.36
+```
+
+Subjects are imperative, lower case, and take no trailing period. The default branch is `main`
+and pull requests target it.
+
+### Coding agents
+
+[AGENTS.md](AGENTS.md) is the single instruction set for Claude Code, Cursor, Codex, and Copilot.
+MCP servers are defined once in `.mcp.json` and skills in `.agents/skills/`; `npm run sync:agents`
+fans both out to the per-tool locations (`.cursor/`, `.vscode/`, `.codex/`, `.claude/skills/`) and
+runs automatically on `npm install`.
+
 ## Learn more
 
 - [Chakra UI docs](https://www.chakra-ui.com/docs)

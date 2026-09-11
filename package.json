@@ -12,7 +12,10 @@
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "prepare": "npm run sync:agents",
+    "sync:agents": "node scripts/sync-agent-config.mjs",
+    "sync:agents:check": "node scripts/sync-agent-config.mjs --check"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.36.0",
