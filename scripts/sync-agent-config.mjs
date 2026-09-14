@@ -40,10 +40,13 @@ async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
 
+/** Line endings are git's business, not ours - compare the text itself. */
+const sameText = (a, b) => a.replace(/\r\n/g, "\n") === b;
+
 /** Writes `content` to `path`, or records it as stale under --check. */
 async function emit(path, content) {
   const current = existsSync(path) ? await readFile(path, "utf8") : null;
-  if (current === content) return;
+  if (current !== null && sameText(current, content)) return;
   if (check) {
     stale.push(relative(root, path));
     return;
