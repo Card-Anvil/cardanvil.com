@@ -13,7 +13,7 @@
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
-    "prepare": "npm run sync:agents",
+    "prepare": "husky && npm run sync:agents",
     "sync:agents": "node scripts/sync-agent-config.mjs",
     "sync:agents:check": "node scripts/sync-agent-config.mjs --check"
   },
@@ -38,7 +38,9 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "babel-plugin-react-compiler": "^1.0.0",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "lint-staged": "^17.5.1",
     "typescript": "^6.0.3",
     "vite": "^8.0.16",
     "vite-prerender-plugin": "^0.5.13",
@@ -48,6 +50,11 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
+    ]
+  },
+  "lint-staged": {
+    "*": [
+      "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
     ]
   }
 }

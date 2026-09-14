@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+# Ensure node is on PATH (Cursor/IDE git often doesn't load shell profile)
+if ! command -v node >/dev/null 2>&1; then
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$HOME/.local/share/fnm/fnm.sh" ] && \. "$HOME/.local/share/fnm/fnm.sh"
+  export PATH="${VOLTA_HOME:-$HOME/.volta}/bin:$PATH"
+fi
+
+# Every check below is one CI runs, so a red PR is a surprise rather than the
+# norm. Not here: the tests and the build, which are too slow for a commit.
+set -e
+
+# Lint and format, but only what is being committed.
+./node_modules/.bin/lint-staged
+
+# Repo-wide, and cheap: the generated agent config must match its source.
+npm run sync:agents:check
