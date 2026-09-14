@@ -52,6 +52,16 @@ Node version is pinned in `.nvmrc`.
 - Imports use the `@/*` alias for anything outside the current folder, not deep relative paths.
   (`#/*` resolves to `./src/*` as well, but the codebase uses `@/*`.)
 
+## Before you commit
+
+`npm install` installs a husky pre-commit hook that runs what CI runs, minus the slow steps:
+lint-staged fixes and formats the staged files with Biome, then `npm run sync:agents:check`
+confirms the generated agent config still matches its source. The tests and the build stay on
+the PR.
+
+To commit past it — a work-in-progress commit on a branch, say — use `git commit --no-verify`.
+CI still has the final word.
+
 ## Commits and branches
 
 This repo uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
