@@ -64,8 +64,8 @@ function Home() {
 							control for building custom cards.
 						</Text>
 						<Text fontSize="md" color="fg.muted" m={0}>
-							Use the web app in your browser, or grab the Windows desktop build
-							for offline card search and rendering.
+							Use the web app in your browser, or grab the desktop build for
+							Windows or macOS for offline card search and rendering.
 						</Text>
 						<Stack direction={{ base: "column", sm: "row" }} gap={3}>
 							<Button asChild colorPalette="cyan" size="lg">
@@ -78,7 +78,7 @@ function Home() {
 								</a>
 							</Button>
 							<Button asChild variant="outline" size="lg">
-								<RouterLink to="/download">Download for Windows</RouterLink>
+								<RouterLink to="/download">Download desktop app</RouterLink>
 							</Button>
 						</Stack>
 					</Stack>
@@ -100,7 +100,7 @@ function Home() {
 						],
 						[
 							"Web or desktop",
-							"Run in the browser at the link above, or install on Windows when you prefer.",
+							"Run in the browser at the link above, or install on Windows or macOS when you prefer.",
 						],
 						[
 							"Custom cards, built right",

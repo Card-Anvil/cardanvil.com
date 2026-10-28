@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
 	githubLatestReleaseApiUrl,
 	parseGitHubRepoFromUrl,
+	pickMacDmgAsset,
 	pickWindowsNsisInstallerAsset,
 } from "./githubReleaseAssets";
 
@@ -61,4 +62,51 @@ describe("pickWindowsNsisInstallerAsset", () => {
 			),
 		).toBeNull();
 	});
+
+	it("picks the installer from a real release", () => {
+		expect(
+			pickWindowsNsisInstallerAsset(v3_1_0.map(mk), "Card.Anvil_")?.name,
+		).toBe("Card.Anvil_3.1.0_x64-setup.exe");
+	});
 });
+
+describe("pickMacDmgAsset", () => {
+	const mk = (name: string) => ({
+		name,
+		browser_download_url: `https://example.com/${name}`,
+	});
+
+	it("picks the DMG for each architecture", () => {
+		const assets = v3_1_0.map(mk);
+		expect(pickMacDmgAsset(assets, "aarch64", "Card.Anvil_")?.name).toBe(
+			"Card.Anvil_3.1.0_aarch64.dmg",
+		);
+		expect(pickMacDmgAsset(assets, "x64", "Card.Anvil_")?.name).toBe(
+			"Card.Anvil_3.1.0_x64.dmg",
+		);
+	});
+
+	it("returns null for a release without macOS builds", () => {
+		const v3_0_0 = [
+			"Card.Anvil_3.0.0_x64-setup.exe",
+			"Card.Anvil_3.0.0_x64-setup.exe.sig",
+			"latest.json",
+		];
+		expect(
+			pickMacDmgAsset(v3_0_0.map(mk), "aarch64", "Card.Anvil_"),
+		).toBeNull();
+	});
+});
+
+/** Asset names from the v3.1.0 release, including the updater bundles to ignore. */
+const v3_1_0 = [
+	"Card.Anvil_3.1.0_aarch64.dmg",
+	"Card.Anvil_3.1.0_x64-setup.exe",
+	"Card.Anvil_3.1.0_x64-setup.exe.sig",
+	"Card.Anvil_3.1.0_x64.dmg",
+	"Card.Anvil_aarch64.app.tar.gz",
+	"Card.Anvil_aarch64.app.tar.gz.sig",
+	"Card.Anvil_x64.app.tar.gz",
+	"Card.Anvil_x64.app.tar.gz.sig",
+	"latest.json",
+];
