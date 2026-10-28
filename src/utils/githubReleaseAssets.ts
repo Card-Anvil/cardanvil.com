@@ -1,6 +1,6 @@
 /**
- * Resolve the Windows NSIS installer from GitHub’s latest release via the public API.
- * GitHub enables CORS for the REST API, so this works from the browser.
+ * Resolve desktop installers (Windows NSIS `.exe`, macOS `.dmg`) from GitHub’s latest release
+ * via the public API. GitHub enables CORS for the REST API, so this works from the browser.
  */
 
 export type GithubReleaseAsset = {
@@ -11,6 +11,9 @@ export type GithubReleaseAsset = {
 export type GithubLatestReleaseJson = {
 	assets: GithubReleaseAsset[];
 };
+
+/** Tauri’s macOS architecture names, as they appear in DMG file names. */
+export type MacArch = "aarch64" | "x64";
 
 export function parseGitHubRepoFromUrl(repoPageUrl: string): {
 	owner: string;
@@ -38,13 +41,32 @@ export function githubLatestReleaseApiUrl(owner: string, repo: string): string {
 
 /**
  * Tauri NSIS bundles use `{productName}_{version}_x64-setup.exe`.
- * Prefer assets whose names start with `namePrefix` when set (e.g. `cardanvil_`).
+ * Prefer assets whose names start with `namePrefix` when set (e.g. `Card.Anvil_`).
  */
 export function pickWindowsNsisInstallerAsset(
 	assets: GithubReleaseAsset[],
 	namePrefix: string,
 ): GithubReleaseAsset | null {
-	const suffix = "_x64-setup.exe";
+	return pickAssetBySuffix(assets, "_x64-setup.exe", namePrefix);
+}
+
+/**
+ * Tauri DMG bundles use `{productName}_{version}_{arch}.dmg`, where `arch` is `aarch64`
+ * (Apple Silicon) or `x64` (Intel).
+ */
+export function pickMacDmgAsset(
+	assets: GithubReleaseAsset[],
+	arch: MacArch,
+	namePrefix: string,
+): GithubReleaseAsset | null {
+	return pickAssetBySuffix(assets, `_${arch}.dmg`, namePrefix);
+}
+
+function pickAssetBySuffix(
+	assets: GithubReleaseAsset[],
+	suffix: string,
+	namePrefix: string,
+): GithubReleaseAsset | null {
 	const withSuffix = assets.filter((a) => a.name.endsWith(suffix));
 	if (withSuffix.length === 0) return null;
 
@@ -76,10 +98,11 @@ function pickOne(candidates: GithubReleaseAsset[]): GithubReleaseAsset {
 	return last;
 }
 
-export async function fetchLatestWindowsNsisInstaller(
+/** Assets of the latest published release, or `null` if the API call fails. */
+export async function fetchLatestReleaseAssets(
 	repoPageUrl: string,
-	options: { namePrefix: string; signal?: AbortSignal },
-): Promise<GithubReleaseAsset | null> {
+	options: { signal?: AbortSignal } = {},
+): Promise<GithubReleaseAsset[] | null> {
 	const parsed = parseGitHubRepoFromUrl(repoPageUrl);
 	if (!parsed) return null;
 
@@ -95,7 +118,5 @@ export async function fetchLatestWindowsNsisInstaller(
 	if (!res.ok) return null;
 
 	const data = (await res.json()) as GithubLatestReleaseJson;
-	if (!data.assets?.length) return null;
-
-	return pickWindowsNsisInstallerAsset(data.assets, options.namePrefix);
+	return data.assets ?? [];
 }
